@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <!--适应手机端-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <title>Title</title>
+</head>
+
+<body>
+
+
+
+
+<info id="info" select_box="{{ select_box }}" select_text="{{ select_text }}" select_value="{{ select_value }}"></info>
+</body>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<script>
+    var select_box = $('#info').attr('select_box');
+    var select_text = $('#info').attr('select_text');
+    var select_value = $('#info').attr('select_value');
+
+    window.opener.add_option(select_box,select_text,select_value);
+    window.close()
+</script>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--适应手机端-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+{% load static %}
+    {% block head %}
+
+    {% endblock %}
+    <style>
+        body{
+{#            background-image: url({% static 'img/bg.jpg' %});#}
+            background-color: #81d273;!important;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://v3.bootcss.com/examples/dashboard/#">学员管理系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <form class="navbar-form navbar-left">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </form>
+                <li><a href="https://v3.bootcss.com/examples/dashboard/#">登录</a></li>
+                <li><a href="https://v3.bootcss.com/examples/dashboard/#">注册</a></li>
+                <li><a href="https://v3.bootcss.com/examples/dashboard/#">Profile</a></li>
+                <li><a href="https://v3.bootcss.com/examples/dashboard/#">Help</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 80px">
+    <div class="row">
+        <!------------------------------------左侧内容开始------------------------------->
+        </div>
+        <div class="col-md-2 sidebar">
+            <div class="list-group">
+                <!-------------从rbac包中获取注册的菜单----------------->
+                {% load my_tags %}
+                {% get_menu request %}
+            </div>
+        </div>
+        <!------------------------------------中间内容开始------------------------------->
+        <div class="col-md-8">
+        {% block content %}
+
+        {% endblock %}
+        </div>
+    <!------------------------------------右侧内容开始------------------------------->
+        <div class="col-md-2">
+            {% block right %}
+
+            {% endblock %}
+        </div>
+</div>
+<!--------------------------------------------------------------->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+{% block script %}
+{% endblock %}
+<!--------------------------------------------------------------->
+</body>
+</html>

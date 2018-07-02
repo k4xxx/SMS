@@ -1,0 +1,18 @@
+
+
+<div>
+{#{% for model in model_list %}#}
+{#                {% if model.active %}#}
+{#                    <a class="list-group-item active" href="{{ model.href_url }}">{{ model.name }}</a>#}
+{#                {% else %}#}
+{#                    <a class="list-group-item " href="{{ model.href_url }}">{{ model.name }}</a>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+
+
+ {% for item in menu_permission_list %}
+      <a class="list-group-item " href="{{ item.0 }}">{{ item.1 }}</a>
+ {% endfor %}
+
+
+</div>

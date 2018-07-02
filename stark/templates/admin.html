@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <title>admin</title>
+</head>
+<body>
+
+
+<!--------------------------------------------------------------->
+<div class="container">
+<div class="col-sm-8 col-sm-offset-2">
+<h1>admin</h1>
+
+<table class="table table-bordered table-striped table-hover">
+{% for model in model_list %}
+    <tr>
+        <td>
+            <a href="{{ model.href_url }}">{{ model.name }}</a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+</div>
+</div>
+<!--------------------------------------------------------------->
+</body>
+</html>

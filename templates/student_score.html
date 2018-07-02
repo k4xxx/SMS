@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+
+
+{% block content %}
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+{% for classes in student_score_list_all %}
+    <div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ student.username }}的成绩展示({{ classes.0 }})</h3>
+    </div>
+    <div class="panel-body">
+    <div id="score{{ forloop.counter }}" style="min-width:100px;max-width:500px;height:400px"></div>
+    <info id="info{{ forloop.counter }}" days="{{ classes.1.0 }}" score="{{ classes.1.1 }}"></info>
+    </div>
+    </div>
+
+<script>
+    var info_id = 'info{{ forloop.counter }}';
+    var score_id = 'score{{ forloop.counter }}';
+    var day_list = eval($('#'+info_id).attr('days'));
+    var score_list = eval($('#'+info_id).attr('score'));
+var chart = Highcharts.chart(score_id,{
+		chart: {
+				type: 'column'
+		},
+		title: {
+				text: '{{ student.username }}的成绩表'
+		},
+		xAxis: {
+				categories: day_list
+		},
+		series: [{
+				name: '{{ student.username }}',
+				data: score_list
+		}]
+});
+</script>
+{% endfor %}
+
+{% endblock %}
+
+
+
+
+
+

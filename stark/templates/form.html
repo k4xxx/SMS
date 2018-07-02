@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+input, select,textarea {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+textarea {
+    height: auto;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-info">
+<div class="panel-heading">
+    <h3 class="panel-title">{% block content_title %}{% endblock %}</h3>
+</div>
+<div class="panel-body">
+<form action="" method="post" style="width: 90%;margin-left: 20px">
+{% csrf_token %}
+    {% for field in form %}
+    <div style="position: relative">
+        <label>{{ field.label }}</label>
+        <p>{{ field }}<span class=" error pull-right">{{ field.errors.0 }}</span>
+            {% if field.is_pop %}
+            <a onclick="pop('/{{ field.url }}?select_box={{ field.select_box }}')" style="font-size: 23px ;margin-top:-35px;position: absolute;right: -20px">+</a>
+            {% endif %}
+        </p>
+    </div>
+    {% endfor %}
+    <button class=" btn btn-info btn-block">提交</button>
+</form>
+</div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+    function pop(url) {
+        window.open(url,'','width=800,height=600,top=100,left=300')
+    }
+
+    function add_option(select_box,select_text,select_value) {
+       $('#'+select_box).append('<option selected value='+select_value+'>'+select_text+'</option>')
+    }
+</script>
+{% endblock %}

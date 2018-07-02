@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    .well a{
+        text-decoration: none;
+        color: grey;
+    }
+
+    .well .active{
+        color: #2e6da4;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+    {% csrf_token %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">数据展示</h3>
+    </div>
+    <div class="panel-body">
+
+{% if show_list.config.search_fields %}
+<form class="pull-right" method="get" action="">
+    {% csrf_token %}
+    <input type="text" name="kw"><button type="submit">搜索</button>
+</form>
+{% endif %}
+
+<form action="" method="post">
+{% csrf_token %}
+<select name="action_func" class="pull-left" style="height: 26px">
+    <option>——————</option>
+    {% for action in show_list.get_action_list %}
+        <option value="{{ action.name }}">{{ action.desc }}</option>
+    {% endfor %}
+
+</select>
+<button>Go</button>
+    <table class="table table-bordered table-striped table-hover" style="margin-top: 10px;">
+    <tr>
+    {% for header in header_list %}
+        <th>{{ header }}</th>
+    {% endfor %}
+    </tr>
+        {% for obj_data in new_data_list %}
+            <tr>
+                {% for field in obj_data %}
+                    <td>{{ field }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</form>
+<a class="btn btn-info btn-block" href="{{ add_url }}">添加</a>
+<!---------------------分页--------------------------->
+   {{ page_html|safe }}
+<!---------------------分页--------------------------->
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+{% block right %}
+    {% if show_list.get_filter_list %}
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h3 class="panel-title">FILTER</h3>
+    </div>
+    <div class="panel-body">
+     {% for data in show_list.get_filter_list %}
+        <p>{{ data.title.upper }}</p>
+        {% for i in data.data %}
+            <p>{{ i }}</p>
+        {% endfor %}
+     {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block script %}
+<script>
+{#全选框的点击事件#}
+    $('#main_check').on('click',function () {
+        if($(this).prop('checked')){
+            $('.fu_check').prop('checked',true)
+        }else{
+            $('.fu_check').prop('checked',false)
+        }
+    })
+</script>
+
+<script>
+{#作业评语span点击事件#}
+$('body').on('click','.homework_note_span',function () {
+    var record_id = $(this).attr('record_id');
+    var note = $(this).text();
+    $(this).parent().html('<textarea class="homework_note_area" record_id='+record_id+' >'+note+'</textarea>')
+})
+
+$('body').on('blur','.homework_note_area',function () {
+    var record_id = $(this).attr('record_id');
+    var note = $(this).val();
+    var $Ele = $(this).parent();
+    $.ajax({
+        url:'/stark/crm/studyrecord/change/homework_note/',
+        type:'post',
+        data:{
+            'record_id':record_id,
+            'note':note,
+            'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val()
+        },
+        success:function (data) {
+            if(data.state){
+                $Ele.html('<span class="homework_note_span" record_id=' + record_id + ' >' + note + '</span>');
+            }
+        }
+    })
+})
+</script>
+
+
+<script>
+{#作业成绩点击事件#}
+$('body').on('click','.score_span',function () {
+    var record_id = $(this).attr('record_id');
+    var score = $(this).text();
+    $(this).parent().html('<select class="score_selecte" name="score" record_id='+record_id+'><option value=-1>N/A</option>' +
+            '<option value=100>A+</option><option value=90>A</option><option value=85>B+</option>' +
+            '<option value=80>B</option><option value=70>B-</option><option value=60>C</option></select>')
+})
+
+
+
+$('body').on('blur','.score_selecte',function () {
+    var record_id = $(this).attr('record_id');
+    var score = $(this).val();
+    var $Ele = $(this).parent();
+    $.ajax({
+        url:'/stark/crm/studyrecord/change/score/',
+        type:'post',
+        data:{'record_id':record_id,'score':score,'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val()},
+        success:function (data) {
+            if(data.state){
+                    $Ele.html('<span class="score_span" record_id='+record_id+'>'+score+'</span>');
+            }
+        }
+    })
+
+})
+</script>
+{% endblock %}
